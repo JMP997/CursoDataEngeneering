@@ -38,6 +38,7 @@ def getVideoIds(playlistId):
 # Mientras que la condición sea cuerta a la URL base se le va a añadir el pageToken
     try:
         while True:
+            # Esta función hace que si el siguiente pageToken del json es un valor no nulo lo añade a la url base
             url = baseURL
             if pageToken:
                 url += f"&pageToken={pageToken}"
@@ -45,12 +46,14 @@ def getVideoIds(playlistId):
             response.raise_for_status()
             data = response.json()
 
+            # Se genera un diccionario a partir del contenido del JSON y el contenido de "video_id" se añade a la liste videoID
             for item in data.get('items', []):
                 video_id = item['contentDetails']['videoId']
                 videoID.append(video_id)
 
             pageToken = data.get('nextPageToken')
 
+            #Guardamos un archivo en un JSON
             with open("videoIds.json", "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
