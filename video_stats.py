@@ -1,17 +1,17 @@
 import requests
 import json
 import os
-# Esto sirve para securizar (la clave API no debe estár en el código, la extraemos de un archivo llamado .env)
+# Carga variables de entorno desde .env para no hardcodear la API key en el código
 from dotenv import load_dotenv
 
 load_dotenv(dotenv_path="./.env")
-# Primero necesitaremos una URL correspondiente al canal de youtube al que vamos a acceder
+# Construimos la URL para consultar el canal por su handle (parámetro forHandle)
 
 API_KEY = os.getenv("API_KEY")
 CHANNEL_HANDLE = "MrBeast"
 maxResults = 50
 
-# Funcion que estrae la ID de playlist de un canal de youtube a traves de un JSON
+# Función que extrae el ID de la playlist de subidas (uploads) de un canal de YouTube a través de la respuesta JSON
 def getPlaylistid():
     try:
         url = f"https://youtube.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle={CHANNEL_HANDLE}&key={API_KEY}"
@@ -30,12 +30,12 @@ def getPlaylistid():
     except requests.exceptions.RequestException as e:
         raise e    
 
-# Esta función va a coger cada ID correspondiente a un video y la va a almacenar en una lista
+# Recorre la playlist y almacena en una lista los IDs (videoId) de cada vídeo
 def getVideoIds(playlistId):
     videoID = []
     pageToken = None
     baseURL = f"https://youtube.googleapis.com/youtube/v3/playlistItems?part=contentDetails&maxResults={maxResults}&playlistId={playlistId}&key={API_KEY}"
-# Mientras que la condición sea cuerta a la URL base se le va a añadir el pageToken
+# En cada iteración, si existe pageToken, lo añade como parámetro a la URL para paginar
     try:
         while True:
             # Esta función hace que si el siguiente pageToken del json es un valor no nulo lo añade a la url base
@@ -46,14 +46,14 @@ def getVideoIds(playlistId):
             response.raise_for_status()
             data = response.json()
 
-            # Se genera un diccionario a partir del contenido del JSON y el contenido de "video_id" se añade a la liste videoID
+            # Recorremos data['items'] y extraemos contentDetails['videoId'] para añadirlo a la lista videoID
             for item in data.get('items', []):
                 video_id = item['contentDetails']['videoId']
                 videoID.append(video_id)
 
             pageToken = data.get('nextPageToken')
 
-            #Guardamos un archivo en un JSON
+            #Guardamos un las ids en un JSON
             with open("videoIds.json", "w", encoding="utf-8") as f:
                 json.dump(data, f, indent=4, ensure_ascii=False)
 
