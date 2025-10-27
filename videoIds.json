@@ -1,0 +1,38 @@
+{
+    "kind": "youtube#playlistItemListResponse",
+    "etag": "XWO6JyDttdoMBglUIfe4OfyFqAo",
+    "prevPageToken": "EAEaH1BUOkNJUUhJaEEyTnpWRk1EZzVOalU0UVVNNVJEZ3o",
+    "items": [
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "V-fuNA6KKmIwdcVQ8vLrP9T-RZ4",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLlo4bkVFZFhUYVgw",
+            "contentDetails": {
+                "videoId": "Z8nEEdXTaX0",
+                "videoPublishedAt": "2013-01-12T22:34:11Z"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "EwrgAJsNOSTMy2vZmk9nZJgDdVU",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLmpQODJkMjc3Q2M4",
+            "contentDetails": {
+                "videoId": "jP82d277Cc8",
+                "videoPublishedAt": "2012-03-09T23:29:03Z"
+            }
+        },
+        {
+            "kind": "youtube#playlistItem",
+            "etag": "sYazX_S9RAFfSvhRWPqBe8rJ66k",
+            "id": "VVVYNk9RM0RrY3NiWU5FNkg4dVFRdVZBLjJYVmNMckI3QjNZ",
+            "contentDetails": {
+                "videoId": "2XVcLrB7B3Y",
+                "videoPublishedAt": "2012-02-20T22:42:32Z"
+            }
+        }
+    ],
+    "pageInfo": {
+        "totalResults": 903,
+        "resultsPerPage": 50
+    }
+}
