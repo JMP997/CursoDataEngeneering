@@ -105,15 +105,3 @@ Salida: un fichero JSON en `./data/data{YYYY-MM-DD}.json` con la lista de diccio
   - Buen detalle: usa `ensure_ascii=False` para preservar caracteres Unicode.
 
 ---
-
-## Notas finales (para el entregable del curso)
-- El código es funcional en su estructura y refleja el flujo típico de extracción y persistencia en un pipeline de ingestión de datos desde una API.
-- Antes de entrega o en una versión mejorada, conviene:
-  - Corregir la construcción del parámetro `part` en `extract_video_data`.
-  - Arreglar los typos (`tittle` → `title`, `'likecount'` → `'likeCount'`).
-  - Usar `.get()` de forma consistente para evitar KeyError en respuestas incompletas.
-  - Crear la carpeta `./data` si no existe (`os.makedirs("./data", exist_ok=True)`).
-  - Añadir manejo de reintentos / backoff y logging para robustez.
-  - Añadir tests unitarios que mockeen `requests` para validar comportamiento sin llamar la API real.
-
-Si querés, puedo generar el bloque de Markdown listo para pegar en el README (o aplicarlo directamente) con menos/más detalle según prefieras.

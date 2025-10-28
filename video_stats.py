@@ -85,11 +85,11 @@ def extract_video_data(videoID):
                 statistics  = item ['statistics']
                 video_data = {
                     "video_id": video_id,
-                    "tittle": snippet['title'],
+                    "title": snippet['title'],
                     "publishedAt": snippet['publishedAt'],
                     "duration": contentDetails['duration'],
                     "viewCount": statistics.get('viewCount', None),
-                    "likeCount": statistics.get('likecount', None),
+                    "likeCount": statistics.get('likeCount', None),
                     "commentCount": statistics.get('commentCount', None)
                 }
                 extracted_data.append(video_data)
