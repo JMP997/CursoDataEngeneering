@@ -1,5 +1,6 @@
 import requests
 import json
+from datetime import date
 import os
 # Carga variables de entorno desde .env para no hardcodear la API key en el código
 from dotenv import load_dotenv
@@ -56,15 +57,55 @@ def getVideoIds(playlistId):
             if not pageToken:
                 break
 
-            #Guardamos un las ids en un JSON
-            with open("videoIds.json", "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=4, ensure_ascii=False)
-
         return videoID
         
     except requests.exceptions.RequestException as e:
         raise e
 
+def extract_video_data(videoID):
+    extracted_data = []
+    def batch_list(video_id_list, batch_size):
+        for video_id in range (0, len(video_id_list), batch_size):
+            yield video_id_list[video_id: video_id + batch_size]    
+
+    try:
+        for batch in batch_list(videoID, maxResults):
+            videoID_String = ",".join(batch)
+
+            url = f"https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails&part=snippet&part=statistics&id={videoID_String}&key={API_KEY}"
+
+            response = requests.get(url)
+            response.raise_for_status()
+            data = response.json()
+
+            for item in data.get('items',[]):
+                video_id = item['id']
+                snippet = item['snippet']
+                contentDetails = item['contentDetails']
+                statistics  = item ['statistics']
+                video_data = {
+                    "video_id": video_id,
+                    "tittle": snippet['title'],
+                    "publishedAt": snippet['publishedAt'],
+                    "duration": contentDetails['duration'],
+                    "viewCount": statistics.get('viewCount', None),
+                    "likeCount": statistics.get('likecount', None),
+                    "commentCount": statistics.get('commentCount', None)
+                }
+                extracted_data.append(video_data)
+    
+        return extracted_data
+    
+    except requests.exceptions.RequestException as e:
+        raise e
+
+def saveJson(extracted_data):
+    path = f"./data/data{date.today()}.json"
+    with open(path, "w", encoding= "utf-8") as json_outfile:
+        json.dump(extracted_data, json_outfile, indent= 4, ensure_ascii=False)
+
 if __name__ == "__main__":
     playlistId = getPlaylistid()
-    print(getVideoIds(playlistId))
+    video_ids = getVideoIds(playlistId)
+    video_data = extract_video_data(video_ids)
+    saveJson(video_data)
