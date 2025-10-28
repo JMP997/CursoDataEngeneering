@@ -1,4 +1,4 @@
-# CursoDataEngeneering — video_stats.py
+# CursoDataEngeneering
 
 Este README documenta el archivo `video_stats.py` tal como está en el repositorio. Está orientado a un entregable de un curso de Ingeniería de Datos: explica el propósito general, dependencias, uso y describe cada función paso a paso según el código actual (incluye notas sobre limitaciones y comportamientos observables).
 
